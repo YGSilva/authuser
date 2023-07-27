@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.apache.naming.HandlerRef;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,8 +31,8 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    // TIPO OBJETO POIS O RETORNO PODE SER UMA STRING OU O TIPO DENTRO
-    // DEuserModelOptional
+    // TIPO OBJETO POIS O RETORNO PODE SER UMA STRING OU O TIPO DENTRO DE
+    // userModelOptional
     public ResponseEntity<Object> getOneUser(@PathVariable(value = "userId") UUID userId) {
         Optional<UserModel> userModelOptional = userService.findById(userId);
         if (!userModelOptional.isPresent())
