@@ -1,9 +1,8 @@
 package com.ead.authuser.dtos;
 
-import java.util.UUID;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-
+import com.fasterxml.jackson.annotation.JsonView;
+import java.util.UUID;
 import lombok.Data;
 
 @Data
@@ -11,13 +10,43 @@ import lombok.Data;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDto {
 
-    private UUID userId;
-    private String username;
-    private String email;
-    private String password;
-    private String oldPassword;
-    private String fullName;
-    private String phoneNumber;
-    private String cpf;
-    private String imageUrl;
+  public interface UserView {
+    public static interface RegistationPost {
+    }
+
+    public static interface UserPut {
+    }
+
+    public static interface PasswordPut {
+    }
+
+    public static interface ImagePut {
+    }
+  }
+
+  private UUID userId;
+
+  @JsonView(UserView.RegistationPost.class)
+  private String username;
+
+  @JsonView(UserView.RegistationPost.class)
+  private String email;
+
+  @JsonView({ UserView.RegistationPost.class, UserView.PasswordPut.class })
+  private String password;
+
+  @JsonView(UserView.PasswordPut.class)
+  private String oldPassword;
+
+  @JsonView({ UserView.RegistationPost.class, UserView.UserPut.class })
+  private String fullName;
+
+  @JsonView({ UserView.RegistationPost.class, UserView.UserPut.class })
+  private String phoneNumber;
+
+  @JsonView({ UserView.RegistationPost.class, UserView.UserPut.class })
+  private String cpf;
+
+  @JsonView(UserView.ImagePut.class)
+  private String imageUrl;
 }
