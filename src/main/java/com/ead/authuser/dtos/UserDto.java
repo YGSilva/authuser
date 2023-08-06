@@ -1,5 +1,6 @@
 package com.ead.authuser.dtos;
 
+import com.ead.authuser.validations.UsernameConstraint;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonView;
 import java.util.UUID;
@@ -9,8 +10,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.validation.annotation.Validated;
 
 import lombok.Data;
 
@@ -36,16 +35,18 @@ public class UserDto {
   private UUID userId;
 
   @NotBlank(groups = UserView.RegistationPost.class)
-  @Size(min = 4, max = 60)
+  @Size(min = 4, max = 60, groups = UserView.RegistationPost.class)
+  @UsernameConstraint(groups = UserView.RegistationPost.class)
   @JsonView(UserView.RegistationPost.class)
   private String username;
 
   @NotBlank(groups = UserView.RegistationPost.class)
-  @Email
+  @Email(groups = UserView.RegistationPost.class)
   @JsonView(UserView.RegistationPost.class)
   private String email;
 
   @NotBlank(groups = { UserView.RegistationPost.class, UserView.PasswordPut.class })
+  @Size(min = 4, max = 60, groups = { UserView.RegistationPost.class, UserView.PasswordPut.class })
   @JsonView({ UserView.RegistationPost.class, UserView.PasswordPut.class })
   private String password;
 
